@@ -25,44 +25,49 @@
 #++
 
 require 'rimageanalysistools'
-require 'trollop'
-
-require 'pericentromere/process_images'
+require 'rimageanalysistools/get_image'
+require 'rimageanalysistools/create_parameters'
+require 'rimageanalysistools/simple_output'
+require 'pericentromere/find_centromeres'
+require 'pericentromere/resegment_within_regions'
+require 'pericentromere/quantification'
 
 module Pericentromere
-	
-	DEF_MAX_SIZE = 50
-	DEF_MIN_SIZE = 5
-	DEF_INTERCEN_DIST = 10.0
-	DEF_FILTER_CH = 0
-	DEF_PERICENTROMERE_CH = 1
-	DEF_MARKER_CH = 3
 
-	def self.run
+	def self.process_single_image(fn, params_hash)
 
-		opts = Trollop::options do
+		params = RImageAnalysisTools.create_parameter_dictionary(params_hash)
 
-			opt :max_size, "Maximum centromere size (pixels)", type: :integer, default: DEF_MAX_SIZE
-			opt :min_size, "Minimum centromere size (pixels)", type: :integer, default: DEF_MIN_SIZE
-			opt :max_intercentromere_dist, "Maximum allowable distance between a centromere pair (pixels)", type: :float, default: DEF_INTERCEN_DIST
-			opt :filter_channel, "Channel on which to filter centromeres (DNA staining; 0-indexed)", type: :integer, default: DEF_FILTER_CH
-			opt :marker_channel, "Centromere marker channel (0-indexed)", type: :integer, default: DEF_MARKER_CH
-			opt :pericentromere_channel, "Pericentromere marker channel (0-indexed)", type: :integer, default: DEF_PERICENTROMERE_CH
-			opt :dir, "Directory to process (specify either this or file option)", type: :string
-			opt :file, "File to process (specify either this or dir option)", type: :string
+		multichannel_image = RImageAnalysisTools.get_image(fn)
 
-		end
+		mask = Pericentromere.find_centromeres(multichannel_image, params)
 
-		if opts[:dir] then 
+		circ_mask = Pericentromere.circularize_regions(mask, params_hash[:max_intercentromere_dist].to_f)
 
-			process_image_directory(opts[:dir], opts)
+		reseg_mask = Pericentromere.resegment_within_regions(circ_mask, multichannel_image, params_hash[:pericentromere_channel])
 
-		elsif opts[:file] then
+		quant = Pericentromere.quantify(reseg_mask, multichannel_image)
 
-			process_single_image(opts[:file], opts)
+		RImageAnalysisTools.handle_output(fn, reseg_mask, quant)
+
+	end
+
+	def self.process_image_directory(dirname, params_hash)
+
+		Dir.foreach(dirname) do |fn|
+
+			complete = File.expand_path(fn, dirname)
+
+			if File.file?(complete) then
+
+				process_single_image(complete, params_hash)
+
+			end
 
 		end
 
 	end
 
 end
+
+

@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://bitbucket.org/cjfuller/pericentromere'
   s.add_runtime_dependency 'rimageanalysistools'
   s.add_runtime_dependency 'find_beads'
-  s.files       = Dir["lib/**/*.rb"]
+  s.add_runtime_dependency 'trollop'
+  s.files       = Dir["lib/**/*.rb", 'bin/**/*']
+  s.executables << 'pericentromere'
   s.platform    = 'java'
   s.require_paths << 'extlib'
   s.license     = 'MIT'

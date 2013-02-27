@@ -99,9 +99,7 @@ module Pericentromere
 	end
 
 
-	def self.find_centromeres(im)
-
-		params = RImageAnalysisTools.create_parameter_dictionary(min_size: 5, max_size: 50, max_intercentromere_dist:10.0, filter_channel: 0, marker_channel: 3)
+	def self.find_centromeres(im, params)
 
 		channels = im.splitChannels
 

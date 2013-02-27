@@ -1,0 +1,33 @@
+#!/usr/bin/env jruby
+
+require 'rimageanalysistools'
+
+require 'find_beads'
+
+java_import Java::edu.stanford.cfuller.imageanalysistools.image.ImageFactory
+
+java_import Java::edu.stanford.cfuller.imageanalysistools.image.ImageCoordinate
+
+sizes = ImageCoordinate.createCoordXYZCT(101,101,1,1,1)
+
+final_mask = ImageFactory.createWritable(sizes, 1.0)
+
+cens = {1 => [24.99, 50.0], 2=> [75.01, 50.0]}
+
+final_mask.each do |ic|
+
+	next unless final_mask[ic] > 0
+
+	if FindBeads.is_on_voronoi_border?(cens.values, ic) then
+
+		final_mask[ic] = 0
+
+	end
+
+end
+
+Java::ij.ImageJ.new
+
+final_mask.toImagePlus.show
+
+
