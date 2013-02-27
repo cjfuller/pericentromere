@@ -8,8 +8,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Colin J. Fuller"]
   s.email       = 'cjfuller@gmail.com'
   s.homepage    = 'https://bitbucket.org/cjfuller/pericentromere'
-  g.add_runtime_dependency 'rimageanalysistools'
-  s.files       = Dir["lib/**/*.rb"] + Dir["#{JAR_PATH}/**/*.jar"]
+  s.add_runtime_dependency 'rimageanalysistools'
+  s.add_runtime_dependency 'find_beads'
+  s.files       = Dir["lib/**/*.rb"]
   s.platform    = 'java'
   s.require_paths << 'extlib'
   s.license     = 'MIT'
