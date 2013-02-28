@@ -42,7 +42,7 @@ module Pericentromere
 
 		mask = Pericentromere.find_centromeres(multichannel_image, params)
 
-		circ_mask = Pericentromere.circularize_regions(mask, params_hash[:max_intercentromere_dist].to_f)
+		circ_mask = Pericentromere.circularize_regions(mask, params_hash[:pericentromere_region_size].to_f)
 
 		reseg_mask = Pericentromere.resegment_within_regions(circ_mask, multichannel_image, params_hash[:pericentromere_channel])
 

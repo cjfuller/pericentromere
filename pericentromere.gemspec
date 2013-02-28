@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 
   s.name        = 'pericentromere'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2013-02-26'
   s.summary     = "Analysis of pericentromeric heterochromatin"
   s.description = "Analysis of localization of heterochromatin proteins, marks, etc. to regions near the centromere."
