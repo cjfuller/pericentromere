@@ -1,29 +1,3 @@
-#--
-# /* ***** BEGIN LICENSE BLOCK *****
-#  * 
-#  * Copyright (c) 2012 Colin J. Fuller
-#  * 
-#  * Permission is hereby granted, free of charge, to any person obtaining a copy
-#  * of this software and associated documentation files (the Software), to deal
-#  * in the Software without restriction, including without limitation the rights
-#  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#  * copies of the Software, and to permit persons to whom the Software is
-#  * furnished to do so, subject to the following conditions:
-#  * 
-#  * The above copyright notice and this permission notice shall be included in
-#  * all copies or substantial portions of the Software.
-#  * 
-#  * THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-#  * SOFTWARE.
-#  * 
-#  * ***** END LICENSE BLOCK ***** */
-#++
-
 require 'rimageanalysistools'
 require 'rimageanalysistools/drawing'
 
@@ -117,7 +91,7 @@ module Pericentromere
     #
     # @param [Array] pairs An array containing the pairs, for instance from the output of #make_centromere_pairs
     # @param [WritableImage] mask The image mask from which the centromeres will be removed.
-    # 
+    #
     # @return [void]
     #
     def remove_unpaired_centromeres(pairs, mask)
@@ -132,7 +106,7 @@ module Pericentromere
 
     		is_paired = paired_lookup[value]
 
-    		if is_paired.nil? then	
+    		if is_paired.nil? then
 
     			is_paired = pairs.any? { |p| p.include? value }
 
@@ -154,13 +128,13 @@ module Pericentromere
     # the mean of the pair.
     #
     # @param [Quantification] q  The quantification object to which the measurements
-    #                            will be added.  Should also contain an intensity 
+    #                            will be added.  Should also contain an intensity
     #                            measurement for each region named by the
     #                            measurement_name parameter
     # @param [Array] pairs       Contains a series of two-element arrays, each of
     #                            which contains the labels of paired centromeres.
     # @param [String] measurement_name  The name of the intensity meausrement for
-    #                            individual centromeres that is already in the 
+    #                            individual centromeres that is already in the
     #                            quantification and off of which the pair measurements
     #                            will be based.
     # @return [Array]            An array, containing another array for each pair,
@@ -241,7 +215,7 @@ module Pericentromere
     #                                  in an array.
     # @param [Array] pairs             an array containing one array for each pair
     #                                  of centromeres that itself contains the two
-    #                                  labels for that pair 
+    #                                  labels for that pair
     # @param [WritableImage] mask      a WritableImage in which each region's
     #                                  greylevel is its region label; ellipses
     #                                  will be drawn on this mask.
@@ -255,7 +229,7 @@ module Pericentromere
     		l1 = pair[0]
     		l2 = pair[1]
 
-    		dr.draw_shape(mask, [centroids[l1], centroids[l2]], :ellipse, 10) 
+    		dr.draw_shape(mask, [centroids[l1], centroids[l2]], :ellipse, 10)
 
     	end
 
@@ -266,6 +240,3 @@ module Pericentromere
   end
 
 end
-
-
-
